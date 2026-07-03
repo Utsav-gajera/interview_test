@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
 
     public String register(RegisterRequest request) {
 
@@ -26,26 +24,27 @@ public class UserService {
             throw new RuntimeException("Email already exists");
         }
 
-        User user = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .build();
+        try{User user = new User();
+                user.setName(request.getName());
+                user.setEmail(request.getEmail());
 
         repository.save(user);
 
-        return jwtService.generateToken(user.getEmail());
+        return jwtService.generateToken(user.getEmail());}
+        catch(Exception e){
+            throw new RuntimeException("Something went wrong, please try again");
+        }
     }
 
-    public String login(LoginRequest request) {
+    // public String login(LoginRequest request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+    //     // authenticationManager.authenticate(
+    //     //         new UsernamePasswordAuthenticationToken(
+    //     //                 request.getEmail(),
+    //     //                 request.getPassword()
+    //     //         )
+    //     // );
 
-        return jwtService.generateToken(request.getEmail());
-    }
+    //     return jwtService.generateToken(request.getEmail());
+    // }
 }

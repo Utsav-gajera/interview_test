@@ -6,6 +6,9 @@ import com.example.interviewapi.dto.RegisterRequest;
 import com.example.interviewapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/users")
@@ -22,11 +25,13 @@ public class UserController {
         return new AuthResponse(token);
     }
 
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
+    // @PostMapping("/login")
+    // public AuthResponse login(@RequestBody LoginRequest request) {
 
-        String token = userService.login(request);
+    //     String token = userService.login(request);
 
-        return new AuthResponse(token);
-    }
+    //     return new AuthResponse(token);
+    // }
+    
+    
 }

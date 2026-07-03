@@ -1,25 +1,27 @@
 package com.example.interviewapi.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+import java.util.List;
+
 
 @Entity
-@Table(name = "users")
+@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class User {
-
+public class Connection {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
- //   @Column(nullable = false)
-    private String name;
+    private Long to_id;
 
-    //@Column(unique = true, nullable = false)
-    private String email;
-    
+    private Long from_id;
+
+    private String action;
 }

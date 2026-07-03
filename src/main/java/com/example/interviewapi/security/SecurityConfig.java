@@ -20,8 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomUserDetailsService userDetailsService;
-    private final JwtAuthenticationFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,37 +29,35 @@ public class SecurityConfig {
                 
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/users/register", "/users/login").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 
 )
                 
-            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
-            .authenticationProvider(authenticationProvider(userDetailsService, passwordEncoder()))
-            .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
+            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+            //.authenticationProvider(authenticationProvider(userDetailsService, passwordEncoder()))
+           // .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    // @Bean
+    // public PasswordEncoder passwordEncoder() {
+    //     return new BCryptPasswordEncoder();
+    // }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+//     @Bean
+//     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+//         return configuration.getAuthenticationManager();
+//     }
 
-    @Bean
-public DaoAuthenticationProvider authenticationProvider(
-        CustomUserDetailsService userDetailsService,
-        PasswordEncoder passwordEncoder
-) {
+//     @Bean
+// public DaoAuthenticationProvider authenticationProvider(
+//         PasswordEncoder passwordEncoder
+// ) {
 
-    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    provider.setUserDetailsService(userDetailsService);
-    provider.setPasswordEncoder(passwordEncoder);
+//     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//     provider.setPasswordEncoder(passwordEncoder);
 
-    return provider;
-}
+//     return provider;
+// }
 }
